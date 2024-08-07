@@ -14,8 +14,7 @@ export default function Home() {
         <div>
           <h1 className="capitalize text-4xl md:text-7xl font-bold">
             Job
-            <span className="text-primary">tracking
-            </span>app
+            <span className="text-primary">tracking</span>app
           </h1>
           <p className="leading-loose max-w-md mt-4">
             Lorem ipsum dolor sit amet, consectetur adipisicing elit. Similique
@@ -23,11 +22,15 @@ export default function Home() {
             tempore? Sint, molestiae aperiam? Delectus culpa nihil dolor tempore
             tenetur eos magnam?
           </p>
-          <Button asChild className="mt-4 max-w-3">
-            <Link href="/add-job"></Link>
+          <Button asChild className="mt-4">
+            <Link href="/add-job">Get Started</Link>
           </Button>
         </div>
-        <Image src={LandingImg} alt="landing" className="hidden lg:block"></Image>
+        <Image
+          src={LandingImg}
+          alt="landing"
+          className="hidden lg:block"
+        ></Image>
       </section>
     </main>
   );
