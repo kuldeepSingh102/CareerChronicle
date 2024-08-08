@@ -4,7 +4,7 @@ import JobCard from './JobCard';
 import { useSearchParams } from 'next/navigation';
 import { useQuery } from '@tanstack/react-query';
 import { getAllJobsAction } from '@/utils/action';
-import ButtonContainer from './ComplexButtonContainer';
+import ButtonContainer from './ButtonContainer';
 
 function JobsList() {
   const searchParams = useSearchParams();
@@ -25,6 +25,7 @@ function JobsList() {
   if (jobs.length < 1) return <h2 className='text-xl'>No Jobs Found...</h2>;
   return (
     <>
+      {/*button container  */}
       <div className='flex items-center justify-between mb-8'>
         <h2 className='text-xl font-semibold capitalize'>{count} jobs found</h2>
         {
