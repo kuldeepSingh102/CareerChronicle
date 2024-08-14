@@ -20,11 +20,11 @@ function authenticateAndRedirect(): string {
 export async function createJobAction(
   values: CreateAndEditJobType
 ): Promise<JobType | null> {
-  // await new Promise((resolve) => setTimeout(resolve, 3000));
   const userId = authenticateAndRedirect();
+
   try {
     createAndEditJobSchema.parse(values);
-    const job: JobType = await prisma.job.create({
+    const job = await prisma.job.create({
       data: {
         ...values,
         clerkId: userId,
@@ -32,7 +32,7 @@ export async function createJobAction(
     });
     return job;
   } catch (error) {
-    console.error(error);
+    console.error("Error creating job:", error);
     return null;
   }
 }
@@ -88,15 +88,15 @@ export async function getAllJobsAction({
     const jobs: JobType[] = await prisma.job.findMany({
       where: whereClause,
       skip,
-      take:limit,
+      take: limit,
       orderBy: {
         createdAt: "desc",
       },
     });
     const count = await prisma.job.count({
       where: whereClause,
-    })
-    const totalPages = Math.ceil(count/limit)
+    });
+    const totalPages = Math.ceil(count / limit);
     return { jobs, count, page, totalPages };
   } catch (error) {
     console.error(error);
