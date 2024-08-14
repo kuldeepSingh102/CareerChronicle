@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { Camera } from "lucide-react";
-import Logo from "../assets/qaw.svg";
+import Logo from "../assets/logo.svg";
 import LandingImg from "../assets/main.svg";
 import Link from "next/link";
 import { Button } from "../components/ui/button";
@@ -23,8 +23,8 @@ export default function Home() {
             such as the company name, position, application date, and job
             description. The app allows users to track the status of each
             application, which can be categorized into different stages like
-            "Pending," "Interview Scheduled," or "Rejected."
-          </p>
+            &quot;Pending,&quot; &quot;Interview Scheduled,&quot; or &quot;Rejected.&quot;
+            </p>
           <Button asChild className="mt-4">
             <Link href="/add-job">Get Started</Link>
           </Button>
