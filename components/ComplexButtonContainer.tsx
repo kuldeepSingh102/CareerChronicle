@@ -1,6 +1,7 @@
 "use client";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { Button } from "./ui/button";
 
 type ButtonContainerProps = {
   currentPage: number;
@@ -12,13 +13,10 @@ type ButtonProps = {
   activeClass: boolean;
 };
 
-import { Button } from "./ui/button";
 function ButtonContainer({ currentPage, totalPages }: ButtonContainerProps) {
   const searchParams = useSearchParams();
   const router = useRouter();
   const pathname = usePathname();
-
-  const pageButtons = Array.from({ length: totalPages }, (_, i) => i + 1);
 
   const handlePageChange = (page: number) => {
     const defaultParams = {
@@ -32,27 +30,24 @@ function ButtonContainer({ currentPage, totalPages }: ButtonContainerProps) {
     router.push(`${pathname}?${params.toString()}`);
   };
 
-  const addPageButton = ({ page, activeClass }: ButtonProps) => {
-    return (
-      <Button
-        key={page}
-        size="icon"
-        variant={activeClass ? "default" : "outline"}
-        onClick={() => handlePageChange(page)}
-      >
-        {page}
-      </Button>
-    );
-  };
+  const addPageButton = ({ page, activeClass }: ButtonProps) => (
+    <Button
+      key={page}
+      size="icon"
+      variant={activeClass ? "default" : "outline"}
+      onClick={() => handlePageChange(page)}
+    >
+      {page}
+    </Button>
+  );
 
   const renderPageButtons = () => {
     const pageButtons = [];
-    // first page
+    // First page
     pageButtons.push(
       addPageButton({ page: 1, activeClass: currentPage === 1 })
     );
-    // dots
-
+    // Dots
     if (currentPage > 3) {
       pageButtons.push(
         <Button size="icon" variant="outline" key="dots-1">
@@ -60,8 +55,8 @@ function ButtonContainer({ currentPage, totalPages }: ButtonContainerProps) {
         </Button>
       );
     }
-    // one before current page
-    if (currentPage !== 1 && currentPage !== 2) {
+    // One before current page
+    if (currentPage > 2) {
       pageButtons.push(
         addPageButton({
           page: currentPage - 1,
@@ -69,8 +64,8 @@ function ButtonContainer({ currentPage, totalPages }: ButtonContainerProps) {
         })
       );
     }
-    // current page
-    if (currentPage !== 1 && currentPage !== totalPages) {
+    // Current page
+    if (currentPage > 1 && currentPage < totalPages) {
       pageButtons.push(
         addPageButton({
           page: currentPage,
@@ -78,9 +73,8 @@ function ButtonContainer({ currentPage, totalPages }: ButtonContainerProps) {
         })
       );
     }
-    // one after current page
-
-    if (currentPage !== totalPages && currentPage !== totalPages - 1) {
+    // One after current page
+    if (currentPage < totalPages - 1) {
       pageButtons.push(
         addPageButton({
           page: currentPage + 1,
@@ -88,13 +82,15 @@ function ButtonContainer({ currentPage, totalPages }: ButtonContainerProps) {
         })
       );
     }
+    // Dots
     if (currentPage < totalPages - 2) {
       pageButtons.push(
-        <Button size="icon" variant="outline" key="dots-1">
+        <Button size="icon" variant="outline" key="dots-2">
           ...
         </Button>
       );
     }
+    // Last page
     pageButtons.push(
       addPageButton({
         page: totalPages,
@@ -105,10 +101,10 @@ function ButtonContainer({ currentPage, totalPages }: ButtonContainerProps) {
   };
 
   return (
-    <div className="flex  gap-x-2">
-      {/* prev */}
+    <div className="flex gap-x-2">
+      {/* Prev */}
       <Button
-        className="flex items-center gap-x-2 "
+        className="flex items-center gap-x-2"
         variant="outline"
         onClick={() => {
           let prevPage = currentPage - 1;
@@ -120,15 +116,15 @@ function ButtonContainer({ currentPage, totalPages }: ButtonContainerProps) {
         prev
       </Button>
       {renderPageButtons()}
-      {/* next */}
+      {/* Next */}
       <Button
-        className="flex items-center gap-x-2 "
+        className="flex items-center gap-x-2"
+        variant="outline"
         onClick={() => {
           let nextPage = currentPage + 1;
           if (nextPage > totalPages) nextPage = 1;
           handlePageChange(nextPage);
         }}
-        variant="outline"
       >
         next
         <ChevronRight />
@@ -136,4 +132,5 @@ function ButtonContainer({ currentPage, totalPages }: ButtonContainerProps) {
     </div>
   );
 }
+
 export default ButtonContainer;

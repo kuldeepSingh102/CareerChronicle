@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { Camera } from "lucide-react";
-import Logo from "../assets/logo.svg";
+import Logo from "../assets/qaw.svg";
 import LandingImg from "../assets/main.svg";
 import Link from "next/link";
 import { Button } from "../components/ui/button";
@@ -16,11 +16,14 @@ export default function Home() {
             Job
             <span className="text-primary">tracking</span>app
           </h1>
-          <p className="leading-loose max-w-md mt-4">
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Similique
-            enim reiciendis quos perferendis, molestias soluta! Id quas expedita
-            tempore? Sint, molestiae aperiam? Delectus culpa nihil dolor tempore
-            tenetur eos magnam?
+          <p className="leading-loose max-w-100  mt-4">
+            A job tracking app is designed to help users efficiently manage and
+            monitor their job applications throughout the job search process.
+            Users can log each job they apply for, capturing essential details
+            such as the company name, position, application date, and job
+            description. The app allows users to track the status of each
+            application, which can be categorized into different stages like
+            "Pending," "Interview Scheduled," or "Rejected."
           </p>
           <Button asChild className="mt-4">
             <Link href="/add-job">Get Started</Link>
