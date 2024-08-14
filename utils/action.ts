@@ -8,9 +8,16 @@ import { Prisma } from "@prisma/client";
 import dayjs from "dayjs";
 import { rejects } from "assert";
 
+type GetAllJobsActionTypes = {
+  search?: string;
+  jobStatus?: string;
+  page?: number;
+  limit?: number;
+};
+
 function authenticateAndRedirect(): string {
   const { userId } = auth();
-  console.log("usesriId-=", userId);
+  console.log("userId =", userId);
   if (!userId) {
     redirect("/");
   }
@@ -36,13 +43,6 @@ export async function createJobAction(
     return null;
   }
 }
-
-type GetAllJobsActionTypes = {
-  search?: string;
-  jobStatus?: string;
-  page?: number;
-  limit?: number;
-};
 
 export async function getAllJobsAction({
   search,
@@ -99,7 +99,7 @@ export async function getAllJobsAction({
     const totalPages = Math.ceil(count / limit);
     return { jobs, count, page, totalPages };
   } catch (error) {
-    console.error(error);
+    console.error("Error fetching jobs:", error);
     return { jobs: [], count: 0, page: 1, totalPages: 0 };
   }
 }
@@ -116,6 +116,7 @@ export async function deleteJobAction(id: string): Promise<JobType | null> {
     });
     return job;
   } catch (error) {
+    console.error("Error deleting job:", error);
     return null;
   }
 }
@@ -132,6 +133,7 @@ export async function getSingleJobAction(id: string): Promise<JobType | null> {
       },
     });
   } catch (error) {
+    console.error("Error fetching single job:", error);
     job = null;
   }
   if (!job) {
@@ -158,6 +160,7 @@ export async function updateJobAction(
     });
     return job;
   } catch (error) {
+    console.error("Error updating job:", error);
     return null;
   }
 }
@@ -168,8 +171,7 @@ export async function getStatsAction(): Promise<{
   declined: number;
 }> {
   const userId = authenticateAndRedirect();
-  // just to show Skeleton
-  // await new Promise((resolve) => setTimeout(resolve, 5000));
+
   try {
     const stats = await prisma.job.groupBy({
       by: ["status"],
@@ -177,7 +179,7 @@ export async function getStatsAction(): Promise<{
         status: true,
       },
       where: {
-        clerkId: userId, // replace userId with the actual clerkId
+        clerkId: userId,
       },
     });
     const statsObject = stats.reduce((acc, curr) => {
@@ -193,6 +195,7 @@ export async function getStatsAction(): Promise<{
     };
     return defaultStats;
   } catch (error) {
+    console.error("Error fetching stats:", error);
     redirect("/jobs");
   }
 }
@@ -231,6 +234,7 @@ export async function getChartsDataAction(): Promise<
 
     return applicationsPerMonth;
   } catch (error) {
+    console.error("Error fetching charts data:", error);
     redirect("/jobs");
   }
 }
