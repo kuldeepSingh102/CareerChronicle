@@ -1,6 +1,3 @@
-
-
-
 const { PrismaClient } = require('@prisma/client');
 const data = require('./mock-data.json');
 const prisma = new PrismaClient();
